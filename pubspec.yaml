@@ -1,0 +1,67 @@
+name: gara_management_app
+description: "Ứng dụng quản lý gara ô tô cho dịch vụ bóng đèn LED"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Firebase (chỉ Firestore)
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  
+  # HTTP & API
+  http: ^1.1.2
+  
+  # Camera & Image
+  image_picker: ^1.0.4
+  camera: ^0.10.5+5
+  photo_view: ^0.14.0
+  cached_network_image: ^3.3.0
+  flutter_cache_manager: ^3.3.1
+  image: ^4.1.3
+  
+  # Location & Maps
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  
+  # Permissions
+  permission_handler: ^11.1.0
+  
+  # Utilities
+  intl: ^0.18.1
+  uuid: ^4.2.1
+  path: ^1.8.3
+  
+  # URL Launcher
+  url_launcher: ^6.2.2
+  
+  # Shared Preferences
+  shared_preferences: ^2.2.2
+  
+  # Path Provider
+  path_provider: ^2.1.1
+  
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/

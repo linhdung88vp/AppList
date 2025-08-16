@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "739609749459",
+    "project_id": "gara-management-app",
+    "storage_bucket": "gara-management-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739609749459:android:8e9890d43c5df8da353126",
+        "android_client_info": {
+          "package_name": "com.example.gara_management_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd7h8fbrf2LhfDdLHlSvwUA2_d6My4yV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
