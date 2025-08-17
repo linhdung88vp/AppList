@@ -13,9 +13,9 @@ echo.
 echo 📋 Instructions:
 echo 1. Go to: https://github.com/linhdung88vp/AppList/releases
 echo 2. Click "Create a new release"
-echo 3. Tag: v1.0.1
-echo 4. Title: Gara App v1.0.1
-echo 5. Description: Auto-update feature
+echo 3. Tag: v1.0.2
+echo 4. Title: Gara App v1.0.2
+echo 5. Description: Auto-update feature v1.0.2
 echo 6. Upload file: build\app\outputs\flutter-apk\app-release.apk
 echo 7. Publish release
 echo.
