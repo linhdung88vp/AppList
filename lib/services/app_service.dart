@@ -35,24 +35,39 @@ class AppUpdateInfo {
 
 class AppService {
   static const String _currentVersion = '1.0.0';
-  static const String _updateCheckUrl = 'https://yourusername.github.io/gara-app/api/update.json'; // Thay thế bằng URL thật
+  static const String _updateCheckUrl = 'https://linhdung88vp.github.io/AppList/api/update.json'; // Thay thế bằng URL thật
   
   // Kiểm tra cập nhật
   static Future<AppUpdateInfo?> checkForUpdate() async {
     try {
+      debugPrint('🔍 Đang kiểm tra cập nhật từ: $_updateCheckUrl');
       final response = await http.get(Uri.parse(_updateCheckUrl));
+      
+      debugPrint('📡 Response status: ${response.statusCode}');
+      debugPrint('📄 Response body: ${response.body}');
       
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final updateInfo = AppUpdateInfo.fromJson(data);
         
+        debugPrint('📱 Phiên bản hiện tại: $_currentVersion');
+        debugPrint('🆕 Phiên bản mới: ${updateInfo.version}');
+        
         // So sánh phiên bản
-        if (_compareVersions(updateInfo.version, _currentVersion) > 0) {
+        final comparison = _compareVersions(updateInfo.version, _currentVersion);
+        debugPrint('⚖️ So sánh phiên bản: $comparison');
+        
+        if (comparison > 0) {
+          debugPrint('✅ Có bản cập nhật mới!');
           return updateInfo;
+        } else {
+          debugPrint('ℹ️ Không có bản cập nhật mới');
         }
+      } else {
+        debugPrint('❌ HTTP Error: ${response.statusCode}');
       }
     } catch (e) {
-      debugPrint('Lỗi kiểm tra cập nhật: $e');
+      debugPrint('💥 Lỗi kiểm tra cập nhật: $e');
     }
     return null;
   }
