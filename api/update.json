@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "downloadUrl": "https://github.com/linhdung88vp/AppList/releases/download/v1.0.1/app-release.apk",
+  "downloadUrl": "https://github.com/linhdung88vp/AppList/releases/download/public/app-release.apk",
   "changelog": "✨ Tính năng mới:\n• Tự động cập nhật app\n• Cải thiện UI/UX\n• Sửa lỗi GPS\n• Tối ưu hiệu suất\n\n🔧 Cải tiến:\n• Bắt buộc chụp ảnh trực tiếp\n• Kiểm tra quyền tự động\n• Thống kê theo ngày tùy chọn",
   "isForceUpdate": false,
   "releaseDate": "2024-01-15T10:00:00Z"
