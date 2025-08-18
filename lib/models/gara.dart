@@ -8,6 +8,7 @@ class Gara {
   final List<String> phoneNumbers;
   final List<String> imageUrls;
   final GeoPoint location; // Sử dụng GeoPoint của Firestore
+  final String? status; // Trạng thái gara
   final DateTime createdAt;
   final DateTime updatedAt;
   final String? notes;
@@ -23,6 +24,7 @@ class Gara {
     required this.phoneNumbers,
     required this.imageUrls,
     required this.location,
+    this.status,
     required this.createdAt,
     required this.updatedAt,
     this.notes,
@@ -39,6 +41,7 @@ class Gara {
     List<String>? phoneNumbers,
     List<String>? imageUrls,
     GeoPoint? location,
+    String? status,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? notes,
@@ -54,6 +57,7 @@ class Gara {
       phoneNumbers: phoneNumbers ?? this.phoneNumbers,
       imageUrls: imageUrls ?? this.imageUrls,
       location: location ?? this.location,
+      status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       notes: notes ?? this.notes,
@@ -74,6 +78,7 @@ class Gara {
       phoneNumbers: List<String>.from(data['phoneNumbers'] ?? []),
       imageUrls: List<String>.from(data['imageUrls'] ?? []),
       location: data['location'] ?? const GeoPoint(0, 0),
+      status: data['status'],
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       updatedAt: (data['updatedAt'] as Timestamp).toDate(),
       notes: data['notes'],
@@ -92,6 +97,7 @@ class Gara {
       'phoneNumbers': phoneNumbers,
       'imageUrls': imageUrls,
       'location': location,
+      'status': status,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
       'notes': notes,
@@ -109,6 +115,7 @@ class Gara {
     required List<String> phoneNumbers,
     required GeoPoint location,
     String? notes,
+    String? status,
   }) {
     final now = DateTime.now();
     return Gara(
@@ -118,6 +125,7 @@ class Gara {
       phoneNumbers: phoneNumbers,
       imageUrls: [],
       location: location,
+      status: status ?? 'Hoạt động', // Sử dụng status được truyền vào hoặc mặc định
       createdAt: now,
       updatedAt: now,
       notes: notes,

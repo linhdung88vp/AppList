@@ -1,7 +1,7 @@
 {
-  "version": "1.0.1",
-  "downloadUrl": "https://github.com/linhdung88vp/AppList/releases/download/public/app-release.apk",
-  "changelog": "✨ Tính năng mới:\n• Tự động cập nhật app\n• Cải thiện UI/UX\n• Sửa lỗi GPS\n• Tối ưu hiệu suất\n\n🔧 Cải tiến:\n• Bắt buộc chụp ảnh trực tiếp\n• Kiểm tra quyền tự động\n• Thống kê theo ngày tùy chọn",
+  "version": "1.0.4",
+  "downloadUrl": "https://github.com/linhdung88vp/AppList/releases/download/v1.0.4/app-release.apk",
+  "changelog": "🗺️ Bản đồ thực tế:\n• Tích hợp OpenStreetMap miễn phí\n• Hiển thị vị trí user với chấm xanh/đỏ\n• Chấm xanh: User online, Chấm đỏ: User offline\n• Tap vào chấm để xem chi tiết và di chuyển bản đồ\n\n🎨 Giao diện mới:\n• Bottom Navigation Bar với 3 tabs\n• Tab Trang chủ - Quản lý gara\n• Tab Thống kê - Thống kê và cập nhật\n• Tab Bản đồ - Chỉ admin xem được\n\n✨ Tính năng mới:\n• Giao diện hiện đại và responsive\n• Quản lý gara theo trạng thái\n• Hiển thị vị trí real-time (admin)\n• Tự động cập nhật app\n\n🔧 Cải tiến:\n• Bắt buộc chụp ảnh trực tiếp\n• Kiểm tra quyền tự động\n• Thống kê theo ngày tùy chọn\n• Sửa lỗi màn hình bị bể màu sau khi thêm gara",
   "isForceUpdate": false,
-  "releaseDate": "2024-01-15T10:00:00Z"
+  "releaseDate": "2025-01-15T10:00:00Z"
 }

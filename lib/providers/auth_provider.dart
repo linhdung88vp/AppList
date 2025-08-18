@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../config/firebase_config.dart';
 
 class AuthProvider with ChangeNotifier {
   User? _user;
@@ -19,33 +20,34 @@ class AuthProvider with ChangeNotifier {
   }
 
   void _initAuth() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    // Nếu Firebase chưa init (đặc biệt Web chưa cấu hình), tránh crash
+    if (!FirebaseConfig.isInitialized) {
+      // Chạy ở chế độ demo: không có user
+      _user = null;
+      _isAdmin = false;
+      notifyListeners();
+      return;
+    }
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       _user = user;
       if (user != null) {
-        _checkAdminStatus(user.uid);
+        await _checkAdminStatus(user.uid);
       } else {
         _isAdmin = false;
+        notifyListeners();
       }
-      notifyListeners();
     });
   }
 
   Future<void> _checkAdminStatus(String uid) async {
     try {
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
-      
+      final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
       if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
         _isAdmin = data['role'] == 'admin' || data['isAdmin'] == true;
       } else {
-        // Tạo user mới với role user
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uid)
-            .set({
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'email': _user?.email,
           'displayName': _user?.displayName,
           'role': 'user',
@@ -56,23 +58,28 @@ class AuthProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      print('Error checking admin status: $e');
       _isAdmin = false;
       notifyListeners();
     }
   }
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
+    if (!FirebaseConfig.isInitialized) {
+      _error = 'Firebase chưa được cấu hình cho Web';
+      notifyListeners();
+      return false;
+    }
     try {
       _isLoading = true;
       _error = null;
       notifyListeners();
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
+      _user = credential.user;
+      await _checkAdminStatus(credential.user!.uid);
       _isLoading = false;
       notifyListeners();
       return true;
@@ -105,6 +112,11 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> createUserWithEmailAndPassword(String email, String password, String displayName) async {
+    if (!FirebaseConfig.isInitialized) {
+      _error = 'Firebase chưa được cấu hình cho Web';
+      notifyListeners();
+      return false;
+    }
     try {
       _isLoading = true;
       _error = null;
@@ -114,15 +126,9 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
-
-      // Cập nhật display name
       await credential.user?.updateDisplayName(displayName);
 
-      // Tạo user document trong Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(credential.user!.uid)
-          .set({
+      await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).set({
         'email': email,
         'displayName': displayName,
         'role': 'user',
@@ -130,6 +136,8 @@ class AuthProvider with ChangeNotifier {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
+      _user = credential.user;
+      _isAdmin = false;
       _isLoading = false;
       notifyListeners();
       return true;
@@ -159,6 +167,12 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> signOut() async {
+    if (!FirebaseConfig.isInitialized) {
+      _user = null;
+      _isAdmin = false;
+      notifyListeners();
+      return;
+    }
     try {
       await FirebaseAuth.instance.signOut();
       _user = null;
@@ -174,39 +188,5 @@ class AuthProvider with ChangeNotifier {
   void clearError() {
     _error = null;
     notifyListeners();
-  }
-
-  // Tạo admin user (chỉ dùng trong development)
-  Future<void> createAdminUser(String email, String password, String displayName) async {
-    try {
-      _isLoading = true;
-      _error = null;
-      notifyListeners();
-
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      await credential.user?.updateDisplayName(displayName);
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(credential.user!.uid)
-          .set({
-        'email': email,
-        'displayName': displayName,
-        'role': 'admin',
-        'isAdmin': true,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
-      _isLoading = false;
-      notifyListeners();
-    } catch (e) {
-      _isLoading = false;
-      _error = 'Lỗi tạo admin: $e';
-      notifyListeners();
-    }
   }
 }

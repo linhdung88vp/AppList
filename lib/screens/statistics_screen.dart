@@ -28,10 +28,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thống kê Gara'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.blue[600],
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: const Icon(Icons.system_update),
+            icon: const Icon(Icons.system_update, color: Colors.white),
             onPressed: _checkForUpdate,
             tooltip: 'Kiểm tra cập nhật',
           ),

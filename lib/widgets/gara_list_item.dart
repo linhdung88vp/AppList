@@ -87,6 +87,23 @@ class GaraListItem extends StatelessWidget {
                             color: Colors.grey[600],
                           ),
                         ),
+                        const SizedBox(height: 4),
+                        if (gara.status != null && gara.status!.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: _getStatusColor(gara.status!),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              gara.status!,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -212,6 +229,19 @@ class GaraListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'Hoạt động':
+        return Colors.green;
+      case 'Tạm ngưng':
+        return Colors.orange;
+      case 'Đang sửa chữa':
+        return Colors.blue;
+      default:
+        return Colors.grey;
+    }
   }
 
   String _formatDate(DateTime date) {

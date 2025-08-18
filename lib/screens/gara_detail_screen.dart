@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/gara.dart';
 import '../providers/gara_provider.dart';
 import '../providers/auth_provider.dart';
@@ -147,6 +146,8 @@ class GaraDetailScreen extends StatelessWidget {
                 _buildInfoRow('Tên gara:', gara.name),
                 _buildInfoRow('Chủ gara:', gara.ownerName),
                 _buildInfoRow('Địa chỉ:', gara.address),
+                if (gara.status != null && gara.status!.isNotEmpty)
+                  _buildInfoRow('Trạng thái:', gara.status!),
               ],
             ),
 
@@ -166,8 +167,8 @@ class GaraDetailScreen extends StatelessWidget {
             _buildInfoSection(
               title: 'Vị trí',
               children: [
-                _buildInfoRow('Vĩ độ:', '${gara.location.latitude.toStringAsFixed(6)}'),
-                _buildInfoRow('Kinh độ:', '${gara.location.longitude.toStringAsFixed(6)}'),
+                _buildInfoRow('Vĩ độ:', gara.location.latitude.toStringAsFixed(6)),
+                _buildInfoRow('Kinh độ:', gara.location.longitude.toStringAsFixed(6)),
               ],
             ),
 
@@ -352,7 +353,8 @@ class GaraDetailScreen extends StatelessWidget {
                         backgroundColor: Colors.green,
                       ),
                     );
-                    Navigator.pop(context); // Quay về màn hình trước
+                    // Quay về home screen thay vì màn hình trước
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   }
                 } catch (e) {
                   if (context.mounted) {

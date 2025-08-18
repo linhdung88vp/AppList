@@ -27,6 +27,13 @@ class _AddGaraScreenState extends State<AddGaraScreen> {
   final _phoneController = TextEditingController();
   final _notesController = TextEditingController();
   
+  String _selectedStatus = 'Hoạt động';
+  final List<String> _statusOptions = [
+    'Hoạt động',
+    'Tạm ngưng',
+    'Đang sửa chữa',
+  ];
+  
   GeoPoint _location = const GeoPoint(0.0, 0.0);
   List<String> _imageUrls = [];
   List<File> _selectedImages = [];
@@ -257,6 +264,7 @@ class _AddGaraScreenState extends State<AddGaraScreen> {
         phoneNumbers: phoneNumbers,
         location: _location,
         notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
+        status: _selectedStatus,
       );
 
       final duplicates = ValidationService.checkDuplicateGara(newGara, existingGaras);
@@ -286,7 +294,12 @@ class _AddGaraScreenState extends State<AddGaraScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.pop(context);
+        // Sử dụng Future.delayed để tránh lỗi navigation
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
       }
     } catch (e) {
       if (mounted) {
@@ -395,6 +408,46 @@ class _AddGaraScreenState extends State<AddGaraScreen> {
                   }
                   return null;
                 },
+              ),
+              const SizedBox(height: 16),
+
+              // Trạng thái
+              Row(
+                children: [
+                  const Text(
+                    'Trạng thái: ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      initialValue: _selectedStatus,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                      ),
+                      items: _statusOptions.map((String status) {
+                        return DropdownMenuItem<String>(
+                          value: status,
+                          child: Text(status),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedStatus = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
 
